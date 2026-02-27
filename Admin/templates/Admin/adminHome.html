@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartVision | Admin Control Panel</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+    <style>
+        :root {
+            --primary-blue: #0284c7;
+            --primary-light: #e0f2fe;
+            --secondary-teal: #0d9488;
+            --bg-color: #f8fafc;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            --card-hover-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Abstract Medical Background Pattern */
+        .bg-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+            background-size: 30px 30px;
+            opacity: 0.3;
+            z-index: -1;
+        }
+
+        .dashboard-container {
+            width: 100%;
+            max-width: 900px;
+            padding: 2rem;
+            z-index: 1;
+        }
+
+        .header-content {
+            text-align: center;
+            margin-bottom: 3.5rem;
+            animation: fadeInDown 0.6s ease-out forwards;
+        }
+
+        .brand-logo {
+            font-weight: 700;
+            font-size: 2.2rem;
+            color: var(--text-main);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .brand-logo i {
+            color: var(--secondary-teal);
+            margin-right: 0.75rem;
+            font-size: 2.5rem;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        /* Feature Cards */
+        .nav-card {
+            background-color: white;
+            border: 1px solid var(--border-color);
+            border-radius: 0.75rem;
+            padding: 2.5rem 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            height: 100%;
+            text-decoration: none;
+            display: block;
+            color: var(--text-main);
+            box-shadow: var(--card-shadow);
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.6s ease-out both;
+        }
+
+        /* Subtle top border accent */
+        .nav-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-blue), var(--secondary-teal));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .nav-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--card-hover-shadow);
+            border-color: #cbd5e1;
+        }
+
+        .nav-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .icon-circle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background-color: var(--primary-light);
+            color: var(--primary-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .icon-circle i {
+            font-size: 2.2rem;
+        }
+
+        .nav-card:hover .icon-circle {
+            background-color: var(--primary-blue);
+            color: white;
+            box-shadow: 0 4px 10px rgba(2, 132, 199, 0.3);
+        }
+
+        .nav-card h3 {
+            font-weight: 600;
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+            color: var(--primary-dark);
+        }
+
+        .nav-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 0;
+            line-height: 1.5;
+        }
+
+        /* Logout Button */
+        .logout-btn {
+            color: #dc2626;
+            border: 1px solid #fca5a5;
+            background-color: transparent;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .logout-btn:hover {
+            background-color: #fef2f2;
+            color: #b91c1c;
+            border-color: #f87171;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .col-md-6:nth-child(1) .nav-card {
+            animation-delay: 0.1s;
+        }
+
+        .col-md-6:nth-child(2) .nav-card {
+            animation-delay: 0.2s;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="bg-pattern"></div>
+
+    <div class="dashboard-container">
+
+        <div class="header-content">
+            <h1 class="brand-logo"><i class="bi bi-shield-check"></i> System Administrator</h1>
+            <p class="subtitle">SmartVision Diagnostics Management Platform</p>
+        </div>
+
+        <div class="row g-4 justify-content-center">
+
+            <!-- Verify Doctor -->
+            <div class="col-md-6">
+                <a href="{% url 'webadmin:verifyDoctor' %}" class="nav-card">
+                    <div class="icon-circle">
+                        <i class="bi bi-person-lines-fill"></i>
+                    </div>
+                    <h3>Healthcare Professional Verification</h3>
+                    <p>Review credentials and manage access requests for new ophthalmic specialists entering the
+                        network.</p>
+                </a>
+            </div>
+
+            <!-- View/Edit existing Doctor feature -->
+            <div class="col-md-6">
+                <a href="{% url 'webadmin:addDoctor' %}" class="nav-card">
+                    <div class="icon-circle">
+                        <i class="bi bi-hospital"></i>
+                    </div>
+                    <h3>Manage Network Details</h3>
+                    <p>Maintain the central registry of verified medical professionals and adjust system privileges.</p>
+                </a>
+            </div>
+
+        </div>
+
+        <div class="text-center mt-5">
+            <a href="{% url 'webguest:login' %}" class="btn logout-btn px-4 py-2" style="border-radius: 0.5rem;">
+                <i class="bi bi-door-open me-2"></i>Sign Out of Admin Console
+            </a>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

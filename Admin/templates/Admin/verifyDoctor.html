@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartVision | Clinical Verifications</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+    <style>
+        :root {
+            --primary-blue: #0284c7;
+            --secondary-teal: #0d9488;
+            --bg-color: #f8fafc;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+
+            --success-color: #059669;
+            --success-bg: #d1fae5;
+            --danger-color: #dc2626;
+            --danger-bg: #fee2e2;
+            --warning-color: #d97706;
+            --warning-bg: #fef3c7;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            padding-top: 3rem;
+            padding-bottom: 4rem;
+        }
+
+        /* Abstract Medical Background Pattern */
+        .bg-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+            background-size: 30px 30px;
+            opacity: 0.3;
+            z-index: -1;
+        }
+
+        .main-card {
+            background-color: white;
+            border: 1px solid var(--border-color);
+            border-radius: 1rem;
+            padding: 2.5rem 3rem;
+            box-shadow: var(--card-shadow);
+            animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Top Accent Bar */
+        .main-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-blue), var(--secondary-teal));
+        }
+
+        .brand-header {
+            font-weight: 700;
+            font-size: 1.8rem;
+            color: var(--primary-blue);
+            margin-bottom: 0.25rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .brand-header i {
+            color: var(--secondary-teal);
+            margin-right: 0.75rem;
+            font-size: 2rem;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-left: 2.75rem;
+        }
+
+        /* Nav Tabs styling */
+        .nav-tabs {
+            border-bottom: 2px solid var(--border-color);
+            margin-top: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .nav-tabs .nav-link {
+            color: var(--text-muted);
+            border: none;
+            border-bottom: 3px solid transparent;
+            font-weight: 500;
+            padding: 1rem 1.5rem;
+            transition: all 0.2s ease;
+            background: transparent;
+            margin-bottom: -2px;
+            /* Overlap border */
+        }
+
+        .nav-tabs .nav-link:hover {
+            color: var(--primary-blue);
+            background-color: #f8fafc;
+        }
+
+        .nav-tabs .nav-link.active {
+            color: var(--primary-blue);
+            background: transparent;
+            border-color: var(--primary-blue);
+        }
+
+        /* Badges for tabs */
+        .nav-badge {
+            font-size: 0.75rem;
+            padding: 0.25em 0.6em;
+            border-radius: 1rem;
+            margin-left: 0.5rem;
+            font-weight: 600;
+        }
+
+        .badge-pending {
+            background-color: var(--warning-bg);
+            color: var(--warning-color);
+        }
+
+        .badge-accepted {
+            background-color: var(--success-bg);
+            color: var(--success-color);
+        }
+
+        .badge-rejected {
+            background-color: var(--danger-bg);
+            color: var(--danger-color);
+        }
+
+        /* Custom Table Styling */
+        .table {
+            color: var(--text-main);
+            margin-bottom: 0;
+        }
+
+        .table> :not(caption)>*>* {
+            background-color: transparent;
+            border-bottom-color: var(--border-color);
+            padding: 1.25rem 1rem;
+            vertical-align: middle;
+        }
+
+        .table thead th {
+            color: var(--text-muted);
+            font-weight: 600;
+            border-bottom: 2px solid var(--border-color);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 0.5px;
+            background-color: #f8fafc;
+        }
+
+        .table tbody tr {
+            transition: background-color 0.2s ease;
+        }
+
+        .table tbody tr:hover {
+            background-color: #f8fafc;
+        }
+
+        .doctor-name-cell {
+            display: flex;
+            align-items: center;
+            font-weight: 500;
+        }
+
+        .avatar-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary-light);
+            color: var(--primary-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            font-size: 0.9rem;
+        }
+
+        .contact-info .text-muted {
+            font-size: 0.8rem;
+        }
+
+        .empty-state {
+            padding: 4rem 0;
+            text-align: center;
+            color: var(--text-muted);
+        }
+
+        .empty-state i {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            color: #cbd5e1;
+        }
+
+        /* Action Buttons */
+        .btn-action {
+            padding: 0.4rem 1rem;
+            font-size: 0.85rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .btn-accept {
+            background-color: var(--success-bg);
+            color: var(--success-color);
+            border: 1px solid #10b981;
+        }
+
+        .btn-accept:hover {
+            background-color: #10b981;
+            color: white;
+        }
+
+        .btn-reject {
+            background-color: var(--danger-bg);
+            color: var(--danger-color);
+            border: 1px solid #ef4444;
+            margin-left: 0.5rem;
+        }
+
+        .btn-reject:hover {
+            background-color: #ef4444;
+            color: white;
+        }
+
+        .back-link {
+            color: var(--primary-blue);
+            text-decoration: none;
+            transition: color 0.2s;
+            font-weight: 500;
+            font-size: 0.95rem;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .back-link:hover {
+            color: var(--primary-dark);
+            text-decoration: underline;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="bg-pattern"></div>
+
+    <div class="container">
+        <div class="main-card">
+
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h2 class="brand-header"><i class="bi bi-file-earmark-medical"></i> Clinical Verifications</h2>
+                    <p class="subtitle mb-0">Review facility access for medical professionals</p>
+                </div>
+                <div>
+                    <a href="{% url 'webadmin:adminHome' %}" class="back-link"><i
+                            class="bi bi-arrow-left me-2"></i>Return to Hub</a>
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <ul class="nav nav-tabs" id="verifyTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="pending-tab" data-bs-toggle="tab" data-bs-target="#pending"
+                        type="button" role="tab" aria-controls="pending" aria-selected="true">
+                        Requires Review {% if pending|length > 0 %}<span
+                            class="nav-badge badge-pending">{{pending|length}}</span>{% endif %}
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="accepted-tab" data-bs-toggle="tab" data-bs-target="#accepted"
+                        type="button" role="tab" aria-controls="accepted" aria-selected="false">
+                        Authorized Staff {% if accepted|length > 0 %}<span
+                            class="nav-badge badge-accepted">{{accepted|length}}</span>{% endif %}
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="rejected-tab" data-bs-toggle="tab" data-bs-target="#rejected"
+                        type="button" role="tab" aria-controls="rejected" aria-selected="false">
+                        Denied Access {% if rejected|length > 0 %}<span
+                            class="nav-badge badge-rejected">{{rejected|length}}</span>{% endif %}
+                    </button>
+                </li>
+            </ul>
+
+            <!-- Tab Content -->
+            <div class="tab-content" id="verifyTabContent">
+
+                <!-- Pending Tab -->
+                <div class="tab-pane fade show active" id="pending" role="tabpanel" aria-labelledby="pending-tab">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Applicant Details</th>
+                                    <th>Contact Information</th>
+                                    <th class="text-end">Verification Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for d in pending %}
+                                <tr>
+                                    <td>
+                                        <div class="doctor-name-cell">
+                                            <div class="avatar-circle"><i class="bi bi-person"></i></div>
+                                            <div>
+                                                Dr. {{ d.doctor_name }}
+                                                <div class="text-muted" style="font-size: 0.8rem; font-weight: normal;">
+                                                    Pending Review</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="contact-info">
+                                            <span><i class="bi bi-envelope me-2 text-muted"></i>{{ d.doctor_email
+                                                }}</span>
+                                            <span class="text-muted mt-1"><i class="bi bi-telephone me-2"></i>{{
+                                                d.doctor_contact }}</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">
+                                        <a href="{% url 'webadmin:acceptDoctor' d.id %}"
+                                            class="btn btn-action btn-accept"><i class="bi bi-check-circle"></i> Grant
+                                            Access</a>
+                                        <a href="{% url 'webadmin:rejectDoctor' d.id %}"
+                                            class="btn btn-action btn-reject"><i class="bi bi-x-circle"></i> Deny</a>
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="3">
+                                        <div class="empty-state">
+                                            <i class="bi bi-clipboard2-check"></i>
+                                            <h5>Queue is Empty</h5>
+                                            <p class="mb-0">There are currently no new professionals pending
+                                                verification.</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Accepted Tab -->
+                <div class="tab-pane fade" id="accepted" role="tabpanel" aria-labelledby="accepted-tab">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Authorized Personnel</th>
+                                    <th>Contact Information</th>
+                                    <th class="text-end">Administrative Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for d in accepted %}
+                                <tr>
+                                    <td>
+                                        <div class="doctor-name-cell">
+                                            <div class="avatar-circle"
+                                                style="background-color: var(--success-bg); color: var(--success-color);">
+                                                <i class="bi bi-check2-all"></i>
+                                            </div>
+                                            <div>
+                                                Dr. {{ d.doctor_name }}
+                                                <div class="text-success"
+                                                    style="font-size: 0.8rem; font-weight: normal;"><i
+                                                        class="bi bi-shield-check me-1"></i>Verified & Active</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="contact-info">
+                                            <span><i class="bi bi-envelope me-2 text-muted"></i>{{ d.doctor_email
+                                                }}</span>
+                                            <span class="text-muted mt-1"><i class="bi bi-telephone me-2"></i>{{
+                                                d.doctor_contact }}</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">
+                                        <a href="{% url 'webadmin:rejectDoctor' d.id %}"
+                                            class="btn btn-action btn-reject" title="Revoke Facility Access"><i
+                                                class="bi bi-slash-circle"></i> Revoke</a>
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="3">
+                                        <div class="empty-state">
+                                            <i class="bi bi-people"></i>
+                                            <h5>No Active Professionals</h5>
+                                            <p class="mb-0">No doctors have been verified for system access yet.</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Rejected Tab -->
+                <div class="tab-pane fade" id="rejected" role="tabpanel" aria-labelledby="rejected-tab">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Denied Applicant</th>
+                                    <th>Contact Information</th>
+                                    <th class="text-end">Administrative Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for d in rejected %}
+                                <tr>
+                                    <td>
+                                        <div class="doctor-name-cell">
+                                            <div class="avatar-circle"
+                                                style="background-color: var(--danger-bg); color: var(--danger-color);">
+                                                <i class="bi bi-exclamation-octagon"></i>
+                                            </div>
+                                            <div>
+                                                Dr. {{ d.doctor_name }}
+                                                <div class="text-danger"
+                                                    style="font-size: 0.8rem; font-weight: normal;">Access Denied</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="contact-info">
+                                            <span><i class="bi bi-envelope me-2 text-muted"></i>{{ d.doctor_email
+                                                }}</span>
+                                            <span class="text-muted mt-1"><i class="bi bi-telephone me-2"></i>{{
+                                                d.doctor_contact }}</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-end">
+                                        <a href="{% url 'webadmin:acceptDoctor' d.id %}"
+                                            class="btn btn-action btn-accept"
+                                            title="Overturn Decision & Grant Access"><i
+                                                class="bi bi-arrow-counterclockwise"></i> Re-evaluate</a>
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="3">
+                                        <div class="empty-state">
+                                            <i class="bi bi-archive"></i>
+                                            <h5>No Denied Applications</h5>
+                                            <p class="mb-0">There are no records in the denied registry.</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
