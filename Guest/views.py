@@ -1,4 +1,5 @@
 from django.shortcuts import render,redirect
+from Admin.models import *
 from Guest.models import *
 # Create your views here.
 
@@ -21,28 +22,13 @@ def userRegistration(request):
     else:
         return render(request,'Guest/userRegistration.html')
 
-def doctorRegistration(request):
-    if request.method=="POST" and request.FILES:
-        name=request.POST.get("txt_name")
-        contact=request.POST.get("txt_contact")
-        email=request.POST.get("txt_email")
-        gender=request.POST.get("gender")
-        address=request.POST.get("txt_address")  
-        photo=request.FILES.get("file_photo")
-        password=request.POST.get("txt_password")
-        tbl_doctor.objects.create(doctor_name=name,doctor_contact=contact,doctor_email=email,doctor_gender=gender,doctor_address=address,doctor_photo=photo,doctor_password=password)
-
-        return redirect('webguest:login')
-    else:
-        return render(request,'Guest/doctorRegistration.html')
-
 def login(request):
     if request.method=="POST":
         email=request.POST.get("txt_email")
         password=request.POST.get("txt_pass")
         patientcount=tbl_patient.objects.filter(patient_email=email,patient_password=password).count()
         admincount=tbl_admin.objects.filter(admin_name=email,admin_password=password).count()
-        doctorcount=tbl_doctor.objects.filter(doctor_email=email,doctor_password=password,doctor_status=1).count()
+        doctorcount=tbl_doctor.objects.filter(doctor_email=email,doctor_password=password).count()
        
         if patientcount > 0:
             userdata=tbl_patient.objects.filter(patient_email=email,patient_password=password).first()
@@ -53,7 +39,7 @@ def login(request):
             request.session['aid']=admindata.id
             return redirect('webadmin:adminHome')
         elif doctorcount > 0:
-            doctordata=tbl_doctor.objects.filter(doctor_email=email,doctor_password=password,doctor_status=1).first()
+            doctordata=tbl_doctor.objects.filter(doctor_email=email,doctor_password=password).first()
             request.session['did']=doctordata.id
             return redirect('webdoctor:doctorHome')
         else:

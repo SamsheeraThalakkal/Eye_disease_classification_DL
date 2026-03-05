@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect
-from Guest.models import tbl_doctor
-
+from Admin.models import *
 # Create your views here.
 
 def adminHome(request):
@@ -39,7 +38,7 @@ def editDoctor(request, eid):
             editData.doctor_photo = request.FILES.get("file_photo")
         editData.doctor_password = request.POST.get("txt_password")
         editData.save()
-        return redirect("webamin:addDoctor")
+        return redirect("webadmin:addDoctor")
     else:
         return render(request,'Admin/addDoctor.html', {'editData': editData, 'doc': doc})
 
@@ -60,3 +59,21 @@ def rejectDoctor(request, rid):
     doctor.doctor_status = 2
     doctor.save()
     return redirect('webadmin:verifyDoctor')
+
+def doctorRegistration(request):
+    if request.method=="POST" and request.FILES:
+        name=request.POST.get("txt_name")
+        contact=request.POST.get("txt_contact")
+        email=request.POST.get("txt_email")
+        gender=request.POST.get("gender")
+        address=request.POST.get("txt_address")  
+        photo=request.FILES.get("file_photo")
+        password=request.POST.get("txt_password")
+        tbl_doctor.objects.create(doctor_name=name,doctor_contact=contact,doctor_email=email,doctor_gender=gender,doctor_address=address,doctor_photo=photo,doctor_password=password)
+
+        return redirect('webadmin:doctorRegistration')
+    else:
+        return render(request,'Admin/doctorRegistration.html')
+
+def viewUser(request):
+    return render(request,'Admin/userList.html')

@@ -5,6 +5,5 @@ app_name = 'webdoctor'
 
 urlpatterns = [
     path('doctorHome/', views.doctorHome, name='doctorHome'),
-    path('addLocation/', views.addLocation, name='addLocation'),
-    path('deleteLocation/<int:id>/', views.deleteLocation, name='deleteLocation'),
+    path('addAvailability/', views.addAvailability, name='addAvailability'),
 ]

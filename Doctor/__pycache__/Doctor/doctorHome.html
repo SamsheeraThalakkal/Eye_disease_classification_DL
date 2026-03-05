@@ -4,12 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SmartVision | Admin Control Panel</title>
-    <!-- Bootstrap CSS -->
+    <title>SmartVision | Doctor Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
     <style>
@@ -35,7 +32,6 @@
             justify-content: center;
         }
 
-        /* Abstract Medical Background Pattern */
         .bg-pattern {
             position: absolute;
             top: 0;
@@ -72,7 +68,7 @@
         }
 
         .brand-logo i {
-            color: var(--secondary-teal);
+            color: var(--primary-blue);
             margin-right: 0.75rem;
             font-size: 2.5rem;
         }
@@ -82,7 +78,6 @@
             font-size: 1.1rem;
         }
 
-        /* Feature Cards */
         .nav-card {
             background-color: white;
             border: 1px solid var(--border-color);
@@ -100,7 +95,6 @@
             animation: fadeInUp 0.6s ease-out both;
         }
 
-        /* Subtle top border accent */
         .nav-card::before {
             content: '';
             position: absolute;
@@ -108,7 +102,7 @@
             left: 0;
             width: 100%;
             height: 4px;
-            background: linear-gradient(90deg, var(--primary-blue), var(--secondary-teal));
+            background: linear-gradient(90deg, var(--secondary-teal), var(--primary-blue));
             transform: scaleX(0);
             transform-origin: left;
             transition: transform 0.4s ease;
@@ -151,7 +145,7 @@
             font-weight: 600;
             font-size: 1.25rem;
             margin-bottom: 0.75rem;
-            color: var(--primary-dark);
+            color: var(--text-main);
         }
 
         .nav-card p {
@@ -161,7 +155,6 @@
             line-height: 1.5;
         }
 
-        /* Logout Button */
         .logout-btn {
             color: #dc2626;
             border: 1px solid #fca5a5;
@@ -199,14 +192,6 @@
                 transform: translateY(0);
             }
         }
-
-        .col-md-6:nth-child(1) .nav-card {
-            animation-delay: 0.1s;
-        }
-
-        .col-md-6:nth-child(2) .nav-card {
-            animation-delay: 0.2s;
-        }
     </style>
 </head>
 
@@ -217,36 +202,29 @@
     <div class="dashboard-container">
 
         <div class="header-content">
-            <h1 class="brand-logo"><i class="bi bi-shield-check"></i> System Administrator</h1>
-            <p class="subtitle">SmartVision Diagnostics Management Platform</p>
+            <h1 class="brand-logo"><i class="bi bi-briefcase-fill"></i> Welcome, Dr. {{ doctor.doctor_name }}</h1>
+            <p class="subtitle">SmartVision Diagnostics Professional Portal</p>
         </div>
 
         <div class="row g-4 justify-content-center">
 
-            <!-- Verify Doctor -->
             <div class="col-md-6">
-                <a href="{% url 'webadmin:viewUser' %}" class="nav-card">
+                <a href="{% url 'webdoctor:addLocation' %}" class="nav-card">
                     <div class="icon-circle">
-                        <i class="bi bi-person-lines-fill"></i>
+                        <i class="bi bi-geo-alt-fill"></i>
                     </div>
-                    <h3>Manage Patients</h3>
-                    <p>Review credentials and manage access requests for new ophthalmic specialists entering the
-                        network.</p>
+                    <h3>Location & Availability</h3>
+                    <p>Update your clinic locations and set your availability schedule for patients.</p>
                 </a>
             </div>
 
-
-
-
-
-            <!-- View/Edit existing Doctor feature -->
             <div class="col-md-6">
-                <a href="{% url 'webadmin:doctorRegistration' %}" class="nav-card">
+                <a href="#" class="nav-card">
                     <div class="icon-circle">
-                        <i class="bi bi-hospital"></i>
+                        <i class="bi bi-person-lines-fill"></i>
                     </div>
-                    <h3>Manage Network Details</h3>
-                    <p>Maintain the central registry of verified medical professionals and adjust system privileges.</p>
+                    <h3>My Appointments</h3>
+                    <p>View scheduled appointments and interact with enrolled patients in the network.</p>
                 </a>
             </div>
 
@@ -254,12 +232,11 @@
 
         <div class="text-center mt-5">
             <a href="{% url 'webguest:login' %}" class="btn logout-btn px-4 py-2" style="border-radius: 0.5rem;">
-                <i class="bi bi-door-open me-2"></i>Sign Out of Admin Console
+                <i class="bi bi-door-open me-2"></i>Sign Out
             </a>
         </div>
     </div>
 
-    <!-- Bootstrap JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
