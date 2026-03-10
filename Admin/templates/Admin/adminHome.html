@@ -225,7 +225,7 @@
 
             <!-- Verify Doctor -->
             <div class="col-md-6">
-                <a href="{% url 'webadmin:viewUser' %}" class="nav-card">
+                <a href="{% url 'webadmin:viewPatients' %}" class="nav-card">
                     <div class="icon-circle">
                         <i class="bi bi-person-lines-fill"></i>
                     </div>
@@ -237,15 +237,16 @@
 
 
 
-
+         
 
             <!-- View/Edit existing Doctor feature -->
             <div class="col-md-6">
-                <a href="{% url 'webadmin:doctorRegistration' %}" class="nav-card">
+                <a href="{% url 'webadmin:manageDoctors' %}" class="nav-card">
+                <!-- <a href="{% url 'webadmin:doctorRegistration' %}" class="nav-card"> -->
                     <div class="icon-circle">
                         <i class="bi bi-hospital"></i>
                     </div>
-                    <h3>Manage Network Details</h3>
+                    <h3>Manage Doctors</h3>
                     <p>Maintain the central registry of verified medical professionals and adjust system privileges.</p>
                 </a>
             </div>

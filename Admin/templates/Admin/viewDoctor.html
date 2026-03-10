@@ -1,0 +1,58 @@
+<style>
+     .back-link {
+            display: inline-flex;
+            align-items: center;
+            color: var(--secondary-teal);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.2s;
+            margin-top: 1.5rem;
+        }
+
+        .back-link:hover {
+            color: #0f766e;
+        }
+</style>
+
+<div class="container mt-4">
+    <h2>View Doctors</h2>
+
+    <table class="table table-bordered">
+        <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Contact</th>
+            <th>Email</th>
+            <th>Gender</th>
+            <th>Address</th>
+            <th>Photo</th>
+            <th>Action</th>
+        </tr>
+
+        {% for d in doctors %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ d.doctor_name }}</td>
+            <td>{{ d.doctor_contact }}</td>
+            <td>{{ d.doctor_email }}</td>
+            <td>{{ d.doctor_gender }}</td>
+            <td>{{ d.doctor_address }}</td>
+
+            <td>
+                <img src="{{ d.doctor_photo.url }}" width="60">
+            </td>
+
+            <td>
+                <a href="{% url 'webadmin:editDoctor' d.id %}" class="btn btn-warning btn-sm">Edit</a>
+                <a href="{% url 'webadmin:delDoctor' d.id %}" class="btn btn-danger btn-sm"
+                   onclick="return confirm('Delete this doctor?')">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+
+    </table>
+    
+
+</div>
+

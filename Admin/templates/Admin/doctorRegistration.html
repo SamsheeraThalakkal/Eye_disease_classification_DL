@@ -192,7 +192,7 @@
         <div class="header-content">
             <i class="bi bi-clipboard2-pulse brand-icon"></i>
             <h2 class="brand-logo">Professional Enrollment</h2>
-            <p class="subtitle">Complete your application to join the SmartVision network.</p>
+            <p class="subtitle">Complete application to join the SmartVision network.</p>
         </div>
 
         <form method="post" enctype="multipart/form-data">
@@ -201,20 +201,20 @@
             <div class="row g-3 mb-3">
                 <div class="col-md-6">
                     <label for="txt_name" class="form-label">Full Name with Title</label>
-                    <input type="text" name="txt_name" id="txt_name" class="form-control" autocomplete="off"
+                    <input type="text" value="{{ editData.doctor_name }}" name="txt_name" id="txt_name" class="form-control" autocomplete="off"
                         placeholder="e.g. Dr. Jane Smith" required>
                 </div>
 
                 <div class="col-md-6">
                     <label for="txt_contact" class="form-label">Professional Contact</label>
-                    <input type="text" name="txt_contact" id="txt_contact" class="form-control" autocomplete="off"
+                    <input type="text" value="{{ editData.doctor_contact }}" name="txt_contact" id="txt_contact" class="form-control" autocomplete="off"
                         required>
                 </div>
             </div>
 
             <div class="mb-3">
                 <label for="txt_email" class="form-label">Professional Email Address</label>
-                <input type="email" name="txt_email" id="txt_email" class="form-control" autocomplete="off" required>
+                <input type="email" value="{{ editData.doctor_email }}" name="txt_email" id="txt_email" class="form-control" autocomplete="off" required>
             </div>
 
             <div class="mb-3">
@@ -230,8 +230,13 @@
             </div>
 
             <div class="mb-3">
-                <label for="txt_address" class="form-label">Clinic / Hospital Address</label>
-                <textarea name="txt_address" id="txt_address" class="form-control" rows="2" required></textarea>
+                <label for="txt_address" class="form-label">Address</label>
+                <textarea name="txt_address" value="{{ editData.doctor_address }}" id="txt_address" class="form-control" rows="2" required></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label for="txt_specialization" class="form-label">Specialization</label>
+                <textarea name="txt_specialization" value="{{ editData.specialization }}" id="txt_specialization" class="form-control" rows="2" required></textarea>
             </div>
 
             <div class="row g-3 mb-4">
